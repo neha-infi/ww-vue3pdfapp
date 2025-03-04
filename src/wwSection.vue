@@ -24,7 +24,7 @@ export default {
   props: {
     content: {
       type: Object,
-      default: () => ({ pdf: this.content.pdf })
+      default: () => ({ pdf: this.content.pdf, findInput: this.content.search, findHighlightAll: this.content.search, findNext:this.content.search })
     }
   },
   data() {
