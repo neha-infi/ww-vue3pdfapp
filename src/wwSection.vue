@@ -2,14 +2,8 @@
   <div class="PDF-viewer" id="app">
     <h1 :style="textStyle">My Title</h1>
     <p>PDF URL: {{ this.content.pdf }} {{this.content.search}}</p>
-    <p>
-      <input type="text" :id="idConfig.findInput" :value="this.content.search">
-      <input type="checkbox" :id="idConfig.findHighlightAll" checked >
-      <button :id="idConfig.findNext" type="button"></button>
-    </p>
-    <vue-pdf-app v-if="content.pdf" style="height:100vh;width:100%" :pdf="this.content.pdf" :id-config="idConfig" @open="openHandler">
+    <vue-pdf-app style="height:100vh;width:100%" :pdf="this.content.pdf" :id-config="idConfig" >
     </vue-pdf-app>
-    <p v-else>No PDF available</p>
   </div>
 </template>
 
@@ -24,18 +18,11 @@ export default {
   props: {
     content: {
       type: Object,
-      default: () => ({ pdf: this.content.pdf, findInput: this.content.search, findHighlightAll: this.content.search, findNext:this.content.search })
+      default: () => ({ pdf: this.content.pdf })
     }
   },
-  data() {
-    return {
-      idConfig: { findInput: this.content.search, findHighlightAll: this.content.search, findNext:this.content.search}
-    };
-  },
   methods: {
-    pagesRendered(pdfApp) {
-      setTimeout(() => (pdfApp.pdfViewer.findHighlightAll = this.content.search));
-    },
+   
     initObserver() {
       this.resizeObserver = new ResizeObserver(() => {
         console.log(this.content.pdf);
