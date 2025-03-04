@@ -7,7 +7,7 @@
       <input type="checkbox" :id="idConfig.findHighlightAll" checked >
       <button :id="idConfig.findNext" type="button"></button>
     </p>
-    <vue-pdf-app v-if="content.pdf" style="height:100vh;width:100%" :pdf="this.content.pdf" :id-config="idConfig">
+    <vue-pdf-app v-if="content.pdf" style="height:100vh;width:100%" :pdf="this.content.pdf" :id-config="idConfig" @open="openHandler">
     </vue-pdf-app>
     <p v-else>No PDF available</p>
   </div>
@@ -33,6 +33,9 @@ export default {
     };
   },
   methods: {
+    pagesRendered(pdfApp) {
+      setTimeout(() => (pdfApp.pdfViewer.findHighlightAll = this.content.search));
+    },
     initObserver() {
       this.resizeObserver = new ResizeObserver(() => {
         console.log(this.content.pdf);
