@@ -2,7 +2,13 @@
   <div class="PDF-viewer" id="app">
     <h1 :style="textStyle">My Title</h1>
     <p>PDF URL: {{ this.content.pdf }}</p>
-    <vue-pdf-app v-if="content.pdf" style="height: 100vh;" :pdf="this.content.pdf"></vue-pdf-app>
+    <p>
+      <input type="text" :id="idConfig.findInput" :value="idConfig.findInput">
+      <input type="checkbox" :id="idConfig.findHighlightAll" checked >
+      <button :id="idConfig.findNext" type="button"></button>
+    </p>
+    <vue-pdf-app v-if="content.pdf" style="height:100vh;width:100%" :pdf="this.content.pdf" :id-config="idConfig">
+    </vue-pdf-app>
     <p v-else>No PDF available</p>
   </div>
 </template>
@@ -23,7 +29,7 @@ export default {
   },
   data() {
     return {
-      idConfig: { findInput: "member" }
+      idConfig: { findInput: "member", findHighlightAll: "member", findNext:"member"}
     };
   },
   methods: {

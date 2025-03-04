@@ -16,5 +16,15 @@ export default {
         "https://bsiybqzphvbftfzexyhc.supabase.co/storage/v1/object/public/bill_documents/docs/59312_6076.pdf",
       bindable: true,
     },
+    search: {
+      label: { en: "search", fr: "search" },
+      type: "Text",
+      options: {
+        placeholder: "search",
+      },
+      defaultValue:"member",
+      bindable: true,
+    },
   },
+  
 };
