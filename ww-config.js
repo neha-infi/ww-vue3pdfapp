@@ -22,6 +22,7 @@ export default {
       options: {
         placeholder: "search",
       },
+      id:"idConfig.findInput",
       defaultValue:"member",
       bindable: true,
     },

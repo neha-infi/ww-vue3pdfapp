@@ -6,7 +6,7 @@
       <input type="text" :id="idConfig.findInput" :value="this.content.search">
       <input type="checkbox" :id="idConfig.findHighlightAll" :value="this.content.search" checked >
     </p>
-    <vue-pdf-app style="height:100vh;width:100%" :pdf="this.content.pdf" :id-config="idConfig">
+    <vue-pdf-app style="height:100vh;width:100%" :pdf="this.content.pdf" :id-config="{ findInput: this.content.search, findHighlightAll:true}">
     </vue-pdf-app>
   </div>
 </template>
