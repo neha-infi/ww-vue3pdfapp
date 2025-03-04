@@ -3,7 +3,7 @@
     <h1 :style="textStyle">My Title</h1>
     <p>PDF URL: {{ this.content.pdf }} {{this.content.search}}</p>
     <p>
-      <input type="text" :id="idConfig.findInput" :value="idConfig.findInput">
+      <input type="text" :id="idConfig.findInput" :value="{{this.content.search}}">
       <input type="checkbox" :id="idConfig.findHighlightAll" checked >
       <button :id="idConfig.findNext" type="button"></button>
     </p>
