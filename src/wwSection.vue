@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      idConfig: { findInput: "member", findHighlightAll: "member", findNext:"member"}
+      idConfig: { findInput: this.content.search, findHighlightAll: this.content.search, findNext:this.content.search}
     };
   },
   methods: {
