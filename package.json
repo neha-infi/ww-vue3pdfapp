@@ -2,7 +2,7 @@
   "name": "ww-vue3pdf",
   "version": "0.0.1",
   "scripts": {
-    "build": "weweb build",
+    "build": "weweb build name='ww-vue3pdf' type='section'",
     "serve": "weweb serve"
   },
   "devDependencies": {

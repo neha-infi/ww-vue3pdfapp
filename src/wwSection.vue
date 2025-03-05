@@ -67,10 +67,8 @@ export default {
     },
   },
   beforeUnmount() {
-    this.clearObserver();
   },
   mounted() {
-    this.initObserver();
     console.log("PDF URL:", this.content.pdf); // Debugging output
   }
 };
