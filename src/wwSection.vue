@@ -55,10 +55,10 @@ export default {
       }
 
       if (this.pdfViewerApp.pdfViewer.pagesCount) {
-        console.log("PDF Rendered. Starting search...");
+        console.log("PDF Rendered. Starting search...", this.content.search. idConfig.findInput);
 
         this.pdfViewerApp.eventBus.dispatch("find", {
-          query: "this.content.search",
+          query: this.content.search,
           highlightAll: true,
           caseSensitive: false,
           entireWord: false,
