@@ -1,5 +1,6 @@
 <template>
   <div class="PDF-viewer" id="app">
+    <p>{{this.content.pdf}}</p>
     <p>
       <input type="text" ref="searchInput" :id="idConfig.findInput" :value="this.content.search" />
       <input type="checkbox" :id="idConfig.findHighlightAll" checked />
@@ -36,18 +37,6 @@ export default {
     };
   },
   methods: {
-    initObserver() {
-      this.resizeObserver = new ResizeObserver(() => {
-        console.log(this.content.pdf);
-        console.log("Resized");
-      });
-      this.resizeObserver.observe(this.$el);
-    },
-    clearObserver() {
-      if (this.resizeObserver) {
-        this.resizeObserver.disconnect();
-      }
-    },
     afterCreated(pdfApp) {
       console.log("PDF Viewer Created:", pdfApp);
       this.pdfViewerApp = pdfApp;
