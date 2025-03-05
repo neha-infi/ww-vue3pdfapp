@@ -36,6 +36,18 @@ export default {
     };
   },
   methods: {
+    initObserver() {
+      this.resizeObserver = new ResizeObserver(() => {
+        console.log(this.content.pdf);
+        console.log("Resized");
+      });
+      this.resizeObserver.observe(this.$el);
+    },
+    clearObserver() {
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect();
+      }
+    },
     afterCreated(pdfApp) {
       console.log("PDF Viewer Created:", pdfApp);
       this.pdfViewerApp = pdfApp;
@@ -67,8 +79,10 @@ export default {
     },
   },
   beforeUnmount() {
+    this.clearObserver();
   },
   mounted() {
+    this.initObserver();
     console.log("PDF URL:", this.content.pdf); // Debugging output
   }
 };
