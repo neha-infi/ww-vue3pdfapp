@@ -19,6 +19,7 @@ export default {
     search: {
       label: { en: "search", fr: "search" },
       type: "Text",
+      defaultValue:"mem",
       options: {
         placeholder: "search",
       },
