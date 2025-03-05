@@ -1,7 +1,5 @@
 <template>
   <div class="PDF-viewer" id="app">
-    <h1 :style="textStyle">My Title</h1>
-    <p>PDF URL: {{ this.content.pdf }} {{this.content.search}}</p>
     <p>
       <input type="text" ref="searchInput" :id="idConfig.findInput" :value="this.content.search" />
       <input type="checkbox" :id="idConfig.findHighlightAll" checked />
