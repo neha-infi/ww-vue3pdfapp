@@ -1,20 +1,24 @@
 <template>
-  <div class="PDF-viewer" id="app">
-    <h1 :style="textStyle">My Title</h1>
-    <p>PDF URL: {{ this.content.pdf }} {{this.content.search}}</p>
-    <p>
-      <input type="text" :id="idConfig.findInput" :value="this.content.search">
-      <input type="checkbox" :id="idConfig.findHighlightAll" :value="this.content.search" checked >
-    </p>
-    <vue-pdf-app style="height:100vh;width:100%" :pdf="this.content.pdf" :id-config="idConfig">
-    </vue-pdf-app>
-  </div>
+<div class="PDF-viewer" id="app">
+<h1 :style="textStyle">My Title</h1>
+<p>PDF URL: {{ content.pdf }} Search Text: {{ content.search }}</p>
+<p>
+<input type="text" ref="findInput" v-model="searchText">
+<input type="checkbox" ref="findHighlightAll" v-model="highlightAll" checked>
+</p>
+<vue-pdf-app 
+      ref="pdfApp"
+      style="height:100vh;width:100%" 
+      :pdf="content.pdf" 
+      @document-loaded="onDocumentLoaded"
+    />
+</div>
 </template>
-
+ 
 <script>
 import VuePdfApp from "vue3-pdf-app";
 import "vue3-pdf-app/dist/icons/main.css";
-
+ 
 export default {
   components: {
     VuePdfApp
@@ -22,40 +26,33 @@ export default {
   props: {
     content: {
       type: Object,
-      default: () => ({ pdf: this.content.pdf, idConfig: { findInput: this.content.search, findHighlightAll:true} })
+      default: () => ({ pdf: "", search: "" })
     }
   },
   data() {
     return {
-      idConfig: { findInput: this.content.search, findHighlightAll:true}
+      searchText: this.content.search,
+      highlightAll: true,
     };
   },
   methods: {
-    initObserver() {
-      this.resizeObserver = new ResizeObserver(() => {
-        console.log(this.content.pdf);
-        console.log("Resized");
+    onDocumentLoaded() {
+      this.$nextTick(() => {
+        if (this.$refs.pdfApp) {
+          this.$refs.pdfApp.PDFViewerApplication.eventBus.dispatch("find", {
+            query: this.searchText,
+            highlightAll: this.highlightAll,
+            caseSensitive: false
+          });
+        }
       });
-      this.resizeObserver.observe(this.$el);
-    },
-    clearObserver() {
-      if (this.resizeObserver) {
-        this.resizeObserver.disconnect();
-      }
     }
-  },
-  beforeUnmount() {
-    this.clearObserver();
-  },
-  mounted() {
-    this.initObserver();
-    console.log("PDF URL:", this.content.pdf); // Debugging output
   }
 };
 </script>
-
+ 
 <style lang="scss" scoped>
-.PDF-viewer{
+.PDF-viewer {
   display: flex;
   flex-direction: column;
   align-items: center;
