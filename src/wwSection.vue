@@ -1,24 +1,22 @@
 <template>
-<div class="PDF-viewer" id="app">
-<h1 :style="textStyle">My Title</h1>
-<p>PDF URL: {{ content.pdf }} Search Text: {{ content.search }}</p>
-<p>
-<input type="text" ref="findInput" v-model="searchText">
-<input type="checkbox" ref="findHighlightAll" v-model="highlightAll" checked>
-</p>
-<vue-pdf-app 
-      ref="pdfApp"
-      style="height:100vh;width:100%" 
-      :pdf="content.pdf" 
-      @document-loaded="onDocumentLoaded"
-    />
-</div>
+  <div class="PDF-viewer" id="app">
+    <h1 :style="textStyle">My Title</h1>
+    <p>PDF URL: {{ this.content.pdf }} {{this.content.search}}</p>
+    <p>
+      <input type="text" ref="searchInput" :id="idConfig.findInput" value="this.content.search" />
+      <input type="checkbox" :id="idConfig.findHighlightAll" checked />
+    </p>
+    <vue-pdf-app style="height:100vh;width:100%" :pdf="this.content.pdf"
+      :id-config="idConfig"
+      @after-created="afterCreated">
+    </vue-pdf-app>
+  </div>
 </template>
- 
+
 <script>
 import VuePdfApp from "vue3-pdf-app";
 import "vue3-pdf-app/dist/icons/main.css";
- 
+
 export default {
   components: {
     VuePdfApp
@@ -26,33 +24,62 @@ export default {
   props: {
     content: {
       type: Object,
-      default: () => ({ pdf: "", search: "" })
+      default: () => ({ pdf: this.content.pdf, idConfig: { findInput: this.content.search, findHighlightAll:true} })
     }
   },
   data() {
     return {
-      searchText: this.content.search,
-      highlightAll: true,
+      pdf: this.content.pdf,
+      idConfig: {
+        findInput: "findInputId",
+        findHighlightAll: "findHighlightAllId",
+      },
+      pdfViewerApp: null,
     };
   },
   methods: {
-    onDocumentLoaded() {
-      this.$nextTick(() => {
-        if (this.$refs.pdfApp) {
-          this.$refs.pdfApp.PDFViewerApplication.eventBus.dispatch("find", {
-            query: this.searchText,
-            highlightAll: this.highlightAll,
-            caseSensitive: false
-          });
-        }
-      });
-    }
+    afterCreated(pdfApp) {
+      console.log("PDF Viewer Created:", pdfApp);
+      this.pdfViewerApp = pdfApp;
+
+      // Wait for pages to load before searching
+      this.waitForPagesToRender();
+    },
+    async waitForPagesToRender() {
+      console.log("Waiting for PDF to render...");
+
+      let attempts = 0;
+      while (!this.pdfViewerApp?.pdfViewer?.pagesCount && attempts < 10) {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        attempts++;
+      }
+
+      if (this.pdfViewerApp.pdfViewer.pagesCount) {
+        console.log("PDF Rendered. Starting search...");
+
+        this.pdfViewerApp.eventBus.dispatch("find", {
+          query: "lor",
+          highlightAll: true,
+          caseSensitive: false,
+          entireWord: false,
+        });
+      } else {
+        console.error("PDF did not render in time.");
+      }
+    },
+  },
+  beforeUnmount() {
+    this.clearObserver();
+  },
+  mounted() {
+    this.initObserver();
+    console.log("PDF URL:", this.content.pdf); // Debugging output
   }
 };
 </script>
- 
+
 <style lang="scss" scoped>
-.PDF-viewer {
+.PDF-viewer{
   display: flex;
   flex-direction: column;
   align-items: center;
