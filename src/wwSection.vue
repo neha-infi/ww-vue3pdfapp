@@ -3,7 +3,7 @@
     <h1 :style="textStyle">My Title</h1>
     <p>PDF URL: {{ this.content.pdf }} {{this.content.search}}</p>
     <p>
-      <input type="text" ref="searchInput" :id="idConfig.findInput" value="this.content.search" />
+      <input type="text" ref="searchInput" :id="idConfig.findInput" value="{{this.content.search}}" />
       <input type="checkbox" :id="idConfig.findHighlightAll" checked />
     </p>
     <vue-pdf-app style="height:100vh;width:100%" :pdf="this.content.pdf"
@@ -58,7 +58,7 @@ export default {
         console.log("PDF Rendered. Starting search...");
 
         this.pdfViewerApp.eventBus.dispatch("find", {
-          query: "lor",
+          query: "this.content.pdf",
           highlightAll: true,
           caseSensitive: false,
           entireWord: false,
