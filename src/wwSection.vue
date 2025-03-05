@@ -53,7 +53,7 @@ export default {
       }
 
       if (this.pdfViewerApp.pdfViewer.pagesCount) {
-        console.log("PDF Rendered. Starting search...", this.content.search, idConfig);
+        console.log("PDF Rendered. Starting search...", this.content.search);
 
         this.pdfViewerApp.eventBus.dispatch("find", {
           query: this.content.search,
