@@ -55,7 +55,7 @@ export default {
       }
 
       if (this.pdfViewerApp.pdfViewer.pagesCount) {
-        console.log("PDF Rendered. Starting search...", this.content.search. idConfig.findInput);
+        console.log("PDF Rendered. Starting search...", this.content.search. idConfig);
 
         this.pdfViewerApp.eventBus.dispatch("find", {
           query: this.content.search,
